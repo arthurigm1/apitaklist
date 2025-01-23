@@ -5,6 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
+<<<<<<< HEAD
 		<version>3.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
@@ -26,6 +27,16 @@
 		<tag/>
 		<url/>
 	</scm>
+=======
+		<version>3.2.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>login-auth-api</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>login-auth-api</name>
+	<description>Demo project for Spring Boot</description>
+>>>>>>> 7d6baf6 (Descrição do que foi alterado)
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -64,6 +75,10 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7d6baf6 (Descrição do que foi alterado)
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -79,6 +94,7 @@
 	<build>
 		<plugins>
 			<plugin>
+<<<<<<< HEAD
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -91,6 +107,8 @@
 				</configuration>
 			</plugin>
 			<plugin>
+=======
+>>>>>>> 7d6baf6 (Descrição do que foi alterado)
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
