@@ -39,13 +39,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestdto loginRequestdto) {
-        Usuario usuario = this.usuarioRepository.findByEmail(loginRequestdto.email()).orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
-        if (passwordEncoder.matches(loginRequestdto.password(), usuario.getSenha())) {
-            String token = tokenService.generateToken(usuario);
-            return ResponseEntity.ok(new ResponseDto(usuario.getNome(), token));
+    public ResponseEntity<?> login(@RequestBody LoginRequestdto loginRequestdto) {
+        // Buscar o usuário pelo e-mail
+        Optional<Usuario> usuarioOptional = this.usuarioRepository.findByEmail(loginRequestdto.email());
+        // Verifica se o usuário foi encontrado
+        if (usuarioOptional.isEmpty()) {
+            // Caso o e-mail não exista, retorna erro
+            return ResponseEntity.badRequest().body("Usuário não encontrado.");
         }
-        return ResponseEntity.badRequest().build();
+        Usuario user = usuarioOptional.get();  // Obtém o usuário encontrado
+        // Verifica se a senha está correta
+        if (!passwordEncoder.matches(loginRequestdto.password(), user.getSenha())) {
+            // Se a senha não for válida, retorna erro
+            return ResponseEntity.badRequest().body("Senha incorreta.");
+        }
+        // Gera o token se o usuário e a senha estiverem corretos
+        String token = tokenService.generateToken(user);
+        // Retorna a resposta com o token e o nome do usuário
+        return ResponseEntity.ok(new ResponseDto(user.getNome(), token));
     }
 
     @PostMapping("/register")
@@ -54,13 +65,11 @@ public class AuthController {
         if (usuario.isPresent()) {
             return ResponseEntity.badRequest().body("Usuário já existe com este e-mail");
         }
-
         Usuario usuario1 = new Usuario();
         usuario1.setSenha(passwordEncoder.encode(registerbody.password()));
         usuario1.setEmail(registerbody.email());
         usuario1.setNome(registerbody.name());
         this.usuarioRepository.save(usuario1);
-
         String token = tokenService.generateToken(usuario1);
         return ResponseEntity.ok(new ResponseDto(usuario1.getNome(), token));
     }
